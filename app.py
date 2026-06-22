@@ -1,24 +1,24 @@
 import streamlit as st
 from datetime import datetime
 import os
+import json
+import time
 from docx import Document
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 # Importamos las herramientas oficiales para conectar con Google Drive
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
-import time
 
 # ==========================================
 # CONFIGURACIÓN CRÍTICA (ALONSO: PEGA AQUÍ TU ID DE CARPETA)
 # ==========================================
-# Reemplaza este texto por la ID de la carpeta de Google Drive que creaste para Santiago:
-ID_CARPETA_SANTIAGO = "TU_ID_DE_CARPETA_DE_GOOGLE_DRIVE_AQUÍ"
+ID_CARPETA_SANTIAGO = "1PoSV-24mmJeJJ93O_YrdTaal2aN4RE7o"
 
 
 # 1. Configuración de la página
 st.set_page_config(
-    page_title="Portal de Gestión  | Acuario Michin CDMX",
+    page_title="Portal de Gestión B2B | Acuario Michin CDMX",
     page_icon="🌊",
     layout="centered"
 )
@@ -64,7 +64,13 @@ st.markdown("<div class='subtitle'>Portal de Gestión B2B &bull; Ecosistema Corp
 def guardar_en_sheets(datos):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     try:
-        creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+        # LÓGICA HÍBRIDA: Nube (Secrets) vs Local (Archivo)
+        if "gcp" in st.secrets:
+            credenciales_dict = json.loads(st.secrets["gcp"]["service_account"])
+            creds = ServiceAccountCredentials.from_json_keyfile_dict(credenciales_dict, scope)
+        else:
+            creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+            
         cliente = gspread.authorize(creds)
         hoja = cliente.open("CRM Convenios Michin").sheet1
         fila = [
@@ -119,7 +125,13 @@ def subir_a_google_drive(ruta_archivo, nombre_comercial):
     """Automatización exclusiva para enviar el archivo directamente al control de Santiago Segoviano"""
     scope = ["https://www.googleapis.com/auth/drive"]
     try:
-        creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+        # LÓGICA HÍBRIDA: Nube (Secrets) vs Local (Archivo)
+        if "gcp" in st.secrets:
+            credenciales_dict = json.loads(st.secrets["gcp"]["service_account"])
+            creds = ServiceAccountCredentials.from_json_keyfile_dict(credenciales_dict, scope)
+        else:
+            creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+            
         servicio = build('drive', 'v3', credentials=creds)
         
         metadatos_archivo = {
@@ -139,7 +151,6 @@ with st.form("form_convenio", clear_on_submit=False):
     st.markdown("<h4>1. Información Comercial de Enlace</h4>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        # Se adaptó para que el cliente seleccione quién lo está atendiendo
         ejecutivo = st.selectbox("¿Quién es tu Ejecutivo Comercial asignado en Acuario Michin?", ["Alonso Garcia", "Regina Cedeño", "Hugo Sandoval", "Raul Sanchez", "Oscar Flores", "Ana Lau"])
     with col2:
         tipo_entidad = st.selectbox("Clasificación Jurídica de su Entidad:", ["Empresa Privada", "Sindicato o Secretaría Pública"])
@@ -209,13 +220,13 @@ if submit_button:
                 id_drive = subir_a_google_drive(archivo_generado, nombre_comercial)
                 
             if registro_guardado:
-             st.session_state["archivo_listo"] = archivo_generado
-             st.markdown("---")
-             st.success(f"🎉 ¡Registro Exitoso, bienvenido a la red comercial Michin! Los datos de **{nombre_comercial}** han sido vinculados al CRM corporativo. El equipo legal, encabezado por Santiago Segoviano, ha recibido el documento para auditoría y seguimiento.")
-             st.balloons()
-             time.sleep(1.5) # Le damos 1.5 segundos de respiro a la pantalla
-             st.rerun() # Refresca la interfaz de forma limpia
-             
+                st.session_state["archivo_listo"] = archivo_generado
+                st.markdown("---")
+                st.success(f"🎉 ¡Registro Exitoso, bienvenido a la red comercial Michin! Los datos de **{nombre_comercial}** han sido vinculados al CRM corporativo. El equipo legal, encabezado por Santiago Segoviano, ha recibido el documento para auditoría y seguimiento.")
+                st.balloons()
+                time.sleep(1.5) # Le damos 1.5 segundos de respiro a la pantalla
+                st.rerun() # Refresca la interfaz de forma limpia
+
 # 7. Respaldo de descarga para el cliente (Opcional por cortesía)
 if "archivo_listo" in st.session_state:
     st.markdown("<p style='font-size: 13px; opacity: 0.7;'>Como respaldo, usted puede descargar una copia local de los datos procesados en su machote:</p>", unsafe_allow_html=True)
