@@ -7,6 +7,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 # Importamos las herramientas oficiales para conectar con Google Drive
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
+import time
 
 # ==========================================
 # CONFIGURACIÓN CRÍTICA (ALONSO: PEGA AQUÍ TU ID DE CARPETA)
@@ -208,11 +209,13 @@ if submit_button:
                 id_drive = subir_a_google_drive(archivo_generado, nombre_comercial)
                 
             if registro_guardado:
-                st.session_state["archivo_listo"] = archivo_generado
-                st.markdown("---")
-                st.balloons()
-                st.success(f"🎉 ¡Registro Exitoso, bienvenido a la red comercial Michin! Los datos de **{nombre_comercial}** han sido vinculados al CRM corporativo. El equipo legal, encabezado por Santiago Segoviano, ha recibido el documento para auditoría y seguimiento.")
-
+             st.session_state["archivo_listo"] = archivo_generado
+             st.markdown("---")
+             st.success(f"🎉 ¡Registro Exitoso, bienvenido a la red comercial Michin! Los datos de **{nombre_comercial}** han sido vinculados al CRM corporativo. El equipo legal, encabezado por Santiago Segoviano, ha recibido el documento para auditoría y seguimiento.")
+             st.balloons()
+             time.sleep(1.5) # Le damos 1.5 segundos de respiro a la pantalla
+             st.rerun() # Refresca la interfaz de forma limpia
+             
 # 7. Respaldo de descarga para el cliente (Opcional por cortesía)
 if "archivo_listo" in st.session_state:
     st.markdown("<p style='font-size: 13px; opacity: 0.7;'>Como respaldo, usted puede descargar una copia local de los datos procesados en su machote:</p>", unsafe_allow_html=True)
