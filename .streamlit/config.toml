@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#005B94"         # Azul océano brillante para botones activos y acentos
+backgroundColor = "#F4F7F6"       # Fondo ultra limpio con un sutil tinte fresco/arena
+secondaryBackgroundColor = "#0B2545" # Azul marino profundo (Abisal) para componentes y bloques
+textColor = "#1D2A44"            # Gris Oxford/Azul noche para textos altamente legibles
+font = "sans serif"
