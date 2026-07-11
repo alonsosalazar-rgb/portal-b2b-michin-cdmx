@@ -103,14 +103,16 @@ with st.form("form_convenio", clear_on_submit=False):
     st.markdown("<h4>4. Contacto</h4>", unsafe_allow_html=True)
     col5, col6 = st.columns(2)
     with col5:
-        nombre_firmante = st.text_input("Representante Legal:")
+        nombre_firmante = st.text_input("Responsable de Firma Ej. RH, Beneficios, PR")
         nombre_contacto = st.text_input("Contacto RH:")
-    with col6:
+        st.markdown("<h4>5. Oportunidades Comerciales</h4>", unsafe_allow_html=True)
+eventos_anuales = st.text_area("Eventos corporativos que realizan al año (Ej. Día de la Familia, Posadas, Aniversarios):", placeholder="Cuéntanos qué celebran y en qué meses...")
+with col6:
         cargo_firmante = st.text_input("Cargo del Firmante:")
         tel_contacto = st.text_input("Teléfono:", max_chars=10)
         correo_contacto = st.text_input("Correo Institucional:")
         
-    submit_button = st.form_submit_button(label="Iniciar Circuito de Convenio")
+submit_button = st.form_submit_button(label="Iniciar Circuito de Convenio")
 
 if submit_button:
     datos_empresa = {
@@ -122,6 +124,7 @@ if submit_button:
         "giro": giro,
         "colaboradores": colaboradores,
         "nombre_firmante": nombre_firmante,
+        "eventos_anuales": eventos_anuales,
         "cargo_firmante": cargo_firmante,
         "nombre_contacto": nombre_contacto,
         "correo_contacto": correo_contacto,
