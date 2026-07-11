@@ -32,7 +32,20 @@ st.markdown("""
     [data-testid="stForm"] { background-color: #062039 !important; border: 1px solid #104169; border-radius: 12px; padding: 30px; }
     h4 { color: #00b9cc !important; font-family: 'Merriweather', serif; font-weight: 700; margin-top: 25px; margin-bottom: 15px; border-bottom: 2px solid #005B94; padding-bottom: 5px; }
     label { color: #ffffff !important; font-weight: 600 !important; }
-    .stTextInput input, .stTextArea textarea { background-color: #1a324d !important; color: #ffffff !important; border: 1px solid #20507a !important; }
+    
+    /* --- CÓDIGO NUEVO PARA ASEGURAR TEXTO BLANCO EN LAS RESPUESTAS --- */
+    [data-baseweb="input"] input, 
+    [data-baseweb="textarea"] textarea,
+    [data-baseweb="base-input"] {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important; 
+        background-color: #1a324d !important;
+    }
+    div[data-baseweb="select"] > div {
+        color: #ffffff !important;
+        background-color: #1a324d !important;
+    }
+    
     .stButton>button { background-color: #00b9cc !important; color: #0B2545 !important; border-radius: 6px !important; width: 100%; font-weight: 700 !important; text-transform: uppercase; }
     </style>
 """, unsafe_allow_html=True)
