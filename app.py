@@ -23,32 +23,42 @@ st.set_page_config(
 # Estilos CSS
 st.markdown("""
     <style>
+    /* Fondo general */
     [data-testid="stAppApp"] {
         background-color: #001222 !important;
         background-image: radial-gradient(circle at 10% 20%, #062039 0%, transparent 40%), radial-gradient(circle at 80% 50%, #002e5a 0%, transparent 30%) !important;
     }
+    
+    /* Títulos */
     .main-title { color: #00b9cc !important; font-size: 36px; font-weight: 800; text-align: center; margin-top: 10px; margin-bottom: 0px; }
     .subtitle { color: #ffffff; text-align: center; font-size: 24px; margin-top: 5px; opacity: 0.9; }
-    [data-testid="stForm"] { background-color: #062039 !important; border: 1px solid #104169; border-radius: 12px; padding: 30px; }
     h4 { color: #00b9cc !important; font-family: 'Merriweather', serif; font-weight: 700; margin-top: 25px; margin-bottom: 15px; border-bottom: 2px solid #005B94; padding-bottom: 5px; }
+    
+    /* Contenedor del Formulario y Etiquetas */
+    [data-testid="stForm"] { background-color: #062039 !important; border: 1px solid #104169; border-radius: 12px; padding: 30px; }
     label { color: #ffffff !important; font-weight: 600 !important; }
     
-    /* --- CÓDIGO NUEVO PARA ASEGURAR TEXTO BLANCO EN LAS RESPUESTAS --- */
-    [data-baseweb="input"] input, 
-    [data-baseweb="textarea"] textarea,
-    [data-baseweb="base-input"] {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important; 
+    /* --- CSS NUCLEAR PARA TEXTO BLANCO EN INPUTS --- */
+    /* Apunta directamente a la etiqueta de entrada de texto (input) y área de texto (textarea) */
+    .stTextInput input, 
+    .stTextArea textarea, 
+    .stSelectbox div[data-baseweb="select"] {
         background-color: #1a324d !important;
-    }
-    div[data-baseweb="select"] > div {
         color: #ffffff !important;
-        background-color: #1a324d !important;
+        -webkit-text-fill-color: #ffffff !important;
+        border: 1px solid #20507a !important;
     }
     
+    /* Asegura que el texto en los menús desplegables también sea blanco */
+    div[role="listbox"] ul li {
+        color: #ffffff !important;
+    }
+    
+    /* Botón */
     .stButton>button { background-color: #00b9cc !important; color: #0B2545 !important; border-radius: 6px !important; width: 100%; font-weight: 700 !important; text-transform: uppercase; }
     </style>
 """, unsafe_allow_html=True)
+
 
 # --- ENCABEZADO: LOGOS Y TÍTULOS ---
 col_izq, col_centro, col_der = st.columns([1, 3, 1])
