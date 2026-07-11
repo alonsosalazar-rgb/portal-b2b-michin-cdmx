@@ -112,7 +112,7 @@ with col6:
         tel_contacto = st.text_input("Teléfono:", max_chars=10)
         correo_contacto = st.text_input("Correo Institucional:")
         
-submit_button = st.form_submit_button(label="Iniciar Circuito de Convenio")
+        submit_button = st.form_submit_button(label="Iniciar Circuito de Convenio")
 
 if submit_button:
     datos_empresa = {
