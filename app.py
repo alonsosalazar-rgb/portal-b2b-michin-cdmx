@@ -106,7 +106,15 @@ with st.form("form_convenio", clear_on_submit=False):
         nombre_firmante = st.text_input("Responsable de Firma Ej. RH, Beneficios, PR")
         nombre_contacto = st.text_input("Contacto RH:")
         st.markdown("<h4>5. Oportunidades Comerciales</h4>", unsafe_allow_html=True)
-eventos_anuales = st.text_area("Eventos corporativos que realizan al año (Ej. Día de la Familia, Posadas, Aniversarios):", placeholder="Cuéntanos qué celebran y en qué meses...")
+# Título personalizado con color oscuro para que resalte
+st.markdown("<p style='color: #0B2545; font-weight: 700; margin-bottom: 0px;'>Eventos corporativos que realizan al año (Ej. Día de la Familia, Posadas, Aniversarios):</p>", unsafe_allow_html=True)
+
+# Cuadro de texto ocultando la etiqueta original
+eventos_anuales = st.text_area(
+    "Eventos", 
+    label_visibility="collapsed", 
+    placeholder="Cuéntanos qué celebran y en qué meses..."
+)
 with col6:
         cargo_firmante = st.text_input("Cargo del Firmante:")
         tel_contacto = st.text_input("Teléfono:", max_chars=10)
