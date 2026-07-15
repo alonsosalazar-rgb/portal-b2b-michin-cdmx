@@ -82,7 +82,7 @@ def guardar_en_sheets(datos):
     try:
         if "gcp" in st.secrets:
             credenciales_dict = dict(st.secrets["gcp"])
-            
+            creds = ServiceAccountCredentials.from_json_keyfile_dict(credenciales_dict, scope)
             # Forzamos la conversión de saltos de línea para evitar errores de lectura
             credenciales_dict["private_key"] = credenciales_dict["private_key"].replace("\\n", "\n")
             
