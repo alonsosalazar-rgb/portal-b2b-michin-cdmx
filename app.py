@@ -81,8 +81,12 @@ def guardar_en_sheets(datos):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     try:
         if "gcp" in st.secrets:
-            # Ahora tomamos el diccionario de GCP directo de los secrets
             credenciales_dict = dict(st.secrets["gcp"])
+            
+            # Forzamos la conversión de saltos de línea para evitar errores de lectura
+            credenciales_dict["private_key"] = credenciales_dict["private_key"].replace("\\n", "\n")
+            
+            creds = ServiceAccountCredentials.from_json_keyfile_dict(credenciales_dict, scope)
             creds = ServiceAccountCredentials.from_json_keyfile_dict(credenciales_dict, scope)
         else:
             creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
