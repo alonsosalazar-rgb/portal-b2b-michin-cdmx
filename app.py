@@ -49,7 +49,7 @@ st.markdown("""
         border: 1px solid #20507a !important;
     }
     
-    /* Asegura que el texto en los menús desplegables también sea blanco */
+    /* Asegura que el texto en los menús desplegables también sea blanco */ 
     div[role="listbox"] ul li {
         color: #ffffff !important;
     }
@@ -81,7 +81,8 @@ def guardar_en_sheets(datos):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     try:
         if "gcp" in st.secrets:
-            credenciales_dict = json.loads(st.secrets["gcp"]["service_account"])
+            # Ahora tomamos el diccionario de GCP directo de los secrets
+            credenciales_dict = dict(st.secrets["gcp"])
             creds = ServiceAccountCredentials.from_json_keyfile_dict(credenciales_dict, scope)
         else:
             creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
